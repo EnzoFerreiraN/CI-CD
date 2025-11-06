@@ -28,21 +28,26 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+          cache-dependency-path: my-app/package-lock.json
 
       - name: Install dependencies
         run: npm ci
+        working-directory: my-app
 
       - name: Lint (if configured)
         run: npm run lint --if-present
+        working-directory: my-app
 
       - name: Run tests
         run: npm test --silent --if-present
+        working-directory: my-app
 
       - name: Build
         run: npm run build --if-present
+        working-directory: my-app
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: react-build
-          path: build
+          path: my-app/build
